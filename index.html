@@ -148,17 +148,17 @@
                     </button>
                     <div class="relative">
                         <button onclick="toggleModelDropdown()" class="flex items-center gap-2 font-medium text-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 px-3 py-1.5 rounded-lg transition-colors">
-                            <span id="current-model-display">Gemini 2.5 Flash</span>
+                            <span id="current-model-display">Gemini 3.6 Flash</span>
                             <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
                         </button>
                         <!-- Model Dropdown Menu -->
                         <div id="model-dropdown" class="absolute left-0 mt-1 w-64 bg-white dark:bg-[#1e1f20] border border-gemini-borderLight dark:border-gemini-borderDark rounded-xl shadow-xl hidden z-50 py-1">
-                            <div onclick="selectModel('gemini-2.5-flash', 'Gemini 2.5 Flash')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
-                                <div class="font-medium">Gemini 2.5 Flash</div>
+                            <div onclick="selectModel('gemini-3.6-flash', 'Gemini 3.6 Flash')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
+                                <div class="font-medium">Gemini 3.6 Flash</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">Fast & versatile multimodal model</div>
                             </div>
-                            <div onclick="selectModel('gemini-2.5-pro', 'Gemini 2.5 Pro')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
-                                <div class="font-medium">Gemini 2.5 Pro</div>
+                            <div onclick="selectModel('gemini-1.5-pro', 'Gemini 1.5 Pro')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
+                                <div class="font-medium">Gemini 1.5 Pro</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">Complex reasoning & long context</div>
                             </div>
                         </div>
@@ -234,8 +234,8 @@
                 <div>
                     <label class="block text-sm font-medium mb-1.5">Default Model</label>
                     <select id="settings-model-select" class="w-full bg-gemini-light dark:bg-gemini-dark border border-gemini-borderLight dark:border-gemini-borderDark rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-blue-500">
-                        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                        <option value="gemini-3.6-flash">Gemini 3.6 Flash</option>
+                        <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
                     </select>
                 </div>
             </div>
@@ -272,7 +272,7 @@
     <script>
         let state = {
             apiKey: localStorage.getItem('gemini_api_key') || '',
-            model: localStorage.getItem('gemini_model') || 'gemini-2.5-flash',
+            model: localStorage.getItem('gemini_model') || 'gemini-3.6-flash',
             darkMode: localStorage.getItem('gemini_dark_mode') === 'true',
             chats: JSON.parse(localStorage.getItem('gemini_chats') || '[]'),
             currentChatId: localStorage.getItem('gemini_current_chat_id') || null,
@@ -605,7 +605,7 @@
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
-                let accumulatedText = '';
+                    let accumulatedText = '';
                 let buffer = '';
 
                 while (true) {
@@ -647,7 +647,7 @@
 
         function escapeHtml(text) {
             const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-            return text.replace(/[&<>"']/g, m => map[m]);
+            return text.replace(/&amp;lt;&gt;"'/g, m => map[m]);
         }
     </script>
 </body>
