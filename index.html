@@ -30,7 +30,6 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom scrollbar and mobile overflow safety */
         body {
             overscroll-behavior-y: none;
         }
@@ -114,7 +113,6 @@
 
         <!-- Left Sidebar -->
         <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-40 w-72 bg-gemini-light dark:bg-[#1e1f20] border-r border-gemini-borderLight dark:border-gemini-borderDark flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
-            <!-- Sidebar Header -->
             <div class="p-3 flex items-center justify-between">
                 <button onclick="createNewChat()" class="flex items-center gap-3 px-4 py-2.5 bg-gray-200 dark:bg-[#2d2e30] hover:bg-gray-300 dark:hover:bg-[#38393b] rounded-full text-sm font-medium transition-colors w-full">
                     <i class="fa-solid fa-plus text-blue-500"></i>
@@ -126,9 +124,7 @@
             </div>
 
             <!-- Chat History List -->
-            <div id="chat-history-container" class="flex-1 overflow-y-auto px-2 py-2 space-y-1">
-                <!-- Dynamically populated chats -->
-            </div>
+            <div id="chat-history-container" class="flex-1 overflow-y-auto px-2 py-2 space-y-1"></div>
 
             <!-- Sidebar Footer Settings Trigger -->
             <div class="p-3 border-t border-gemini-borderLight dark:border-gemini-borderDark flex flex-col gap-1">
@@ -145,30 +141,25 @@
 
         <!-- Main Content Area -->
         <main class="flex-1 flex flex-col h-full w-full bg-white dark:bg-gemini-dark overflow-hidden relative">
-            <!-- Top Navigation Bar -->
-            <header class="h-14 flex items-center justify-between px-4 border-b border-transparent dark:border-transparent shrink-0">
+            <header class="h-14 flex items-center justify-between px-4 border-b border-transparent shrink-0">
                 <div class="flex items-center gap-3">
                     <button onclick="toggleSidebar()" class="p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full md:hidden">
                         <i class="fa-solid fa-bars text-lg"></i>
                     </button>
                     <div class="relative">
                         <button onclick="toggleModelDropdown()" class="flex items-center gap-2 font-medium text-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 px-3 py-1.5 rounded-lg transition-colors">
-                            <span id="current-model-display">Gemini 1.5 Flash</span>
+                            <span id="current-model-display">Gemini 2.5 Flash</span>
                             <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
                         </button>
                         <!-- Model Dropdown Menu -->
                         <div id="model-dropdown" class="absolute left-0 mt-1 w-64 bg-white dark:bg-[#1e1f20] border border-gemini-borderLight dark:border-gemini-borderDark rounded-xl shadow-xl hidden z-50 py-1">
-                            <div onclick="selectModel('gemini-1.5-flash', 'Gemini 1.5 Flash')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
-                                <div class="font-medium">Gemini 1.5 Flash</div>
+                            <div onclick="selectModel('gemini-2.5-flash', 'Gemini 2.5 Flash')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
+                                <div class="font-medium">Gemini 2.5 Flash</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">Fast & versatile multimodal model</div>
                             </div>
-                            <div onclick="selectModel('gemini-1.5-pro', 'Gemini 1.5 Pro')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
-                                <div class="font-medium">Gemini 1.5 Pro</div>
+                            <div onclick="selectModel('gemini-2.5-pro', 'Gemini 2.5 Pro')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
+                                <div class="font-medium">Gemini 2.5 Pro</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">Complex reasoning & long context</div>
-                            </div>
-                            <div onclick="selectModel('gemini-2.0-flash-exp', 'Gemini 2.0 Flash (Exp)')" class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer text-sm">
-                                <div class="font-medium">Gemini 2.0 Flash (Exp)</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">Next-gen experimental model</div>
                             </div>
                         </div>
                     </div>
@@ -182,7 +173,6 @@
 
             <!-- Chat Message Scroll Container -->
             <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-6 space-y-6 flex flex-col items-center">
-                <!-- Empty State / Welcome Screen -->
                 <div id="welcome-screen" class="my-auto text-center max-w-lg px-4 flex flex-col items-center">
                     <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center text-white text-xl mb-4 shadow-md">
                         <i class="fa-solid fa-sparkles"></i>
@@ -208,7 +198,7 @@
                     <div class="relative bg-gemini-light dark:bg-gemini-cardDark rounded-3xl border border-gemini-borderLight dark:border-gemini-borderDark focus-within:border-gray-400 dark:focus-within:border-gray-500 transition-all shadow-sm">
                         <textarea id="user-input" rows="1" placeholder="Enter a prompt here..." class="w-full bg-transparent px-4 py-3.5 pr-24 focus:outline-none resize-none max-h-40 text-gray-800 dark:text-gray-100 placeholder-gray-400 text-sm md:text-base" style="min-height: 52px;" oninput="autoResize(this)" onkeydown="handleKeyDown(event)"></textarea>
                         <div class="absolute right-2 bottom-2 flex items-center gap-1.5">
-                            <button id="send-btn" onclick="sendMessage()" class="w-9 h-9 flex items-center justify-center bg-gray-200 dark:bg-[#333537] hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 rounded-full text-gray-600 dark:text-gray-300 transition-all cursor-pointer disabled:opacity-40 disabled:hover:bg-gray-200 disabled:hover:text-gray-600">
+                            <button id="send-btn" onclick="sendMessage()" class="w-9 h-9 flex items-center justify-center bg-gray-200 dark:bg-[#333537] hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 rounded-full text-gray-600 dark:text-gray-300 transition-all cursor-pointer disabled:opacity-40">
                                 <i class="fa-solid fa-arrow-up text-sm"></i>
                             </button>
                         </div>
@@ -244,9 +234,8 @@
                 <div>
                     <label class="block text-sm font-medium mb-1.5">Default Model</label>
                     <select id="settings-model-select" class="w-full bg-gemini-light dark:bg-gemini-dark border border-gemini-borderLight dark:border-gemini-borderDark rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-blue-500">
-                        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
-                        <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
-                        <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash (Exp)</option>
+                        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
                     </select>
                 </div>
             </div>
@@ -270,7 +259,6 @@
                 <div>
                     <label class="block text-sm font-medium mb-1.5">Custom System Prompt</label>
                     <textarea id="system-prompt-input" rows="4" placeholder="You are a helpful assistant..." class="w-full bg-gemini-light dark:bg-gemini-dark border border-gemini-borderLight dark:border-gemini-borderDark rounded-xl p-3 text-sm focus:outline-none focus:border-blue-500 resize-none"></textarea>
-                    <p class="text-xs text-gray-400 mt-1">Guides how the AI responds across this chat session.</p>
                 </div>
             </div>
             <div class="px-6 py-3 bg-gray-50 dark:bg-[#1a1b1c] border-t border-gemini-borderLight dark:border-gemini-borderDark flex justify-end gap-2">
@@ -282,23 +270,19 @@
 
     <!-- Application Script Logic -->
     <script>
-        // State Management
         let state = {
             apiKey: localStorage.getItem('gemini_api_key') || '',
-            model: localStorage.getItem('gemini_model') || 'gemini-1.5-flash',
+            model: localStorage.getItem('gemini_model') || 'gemini-2.5-flash',
             darkMode: localStorage.getItem('gemini_dark_mode') === 'true',
             chats: JSON.parse(localStorage.getItem('gemini_chats') || '[]'),
             currentChatId: localStorage.getItem('gemini_current_chat_id') || null,
             isGenerating: false
         };
 
-        // Initialize App on DOM Content Loaded
         document.addEventListener('DOMContentLoaded', () => {
             try {
                 initTheme();
                 initChats();
-                
-                // Hide Loading Screen
                 const loader = document.getElementById('loading');
                 if (loader) {
                     loader.style.opacity = '0';
@@ -306,8 +290,6 @@
                 }
             } catch (err) {
                 console.error("Initialization error:", err);
-                const loader = document.getElementById('loading');
-                if (loader) loader.innerHTML = `<div class="text-red-500 p-4">Error loading application: ${err.message}</div>`;
             }
         });
 
@@ -330,18 +312,14 @@
         }
 
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebar-backdrop');
-            sidebar.classList.toggle('-translate-x-full');
-            backdrop.classList.toggle('hidden');
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('sidebar-backdrop').classList.toggle('hidden');
         }
 
         function toggleModelDropdown() {
-            const dropdown = document.getElementById('model-dropdown');
-            dropdown.classList.toggle('hidden');
+            document.getElementById('model-dropdown').classList.toggle('hidden');
         }
 
-        // Close dropdown when clicking outside
         window.addEventListener('click', (e) => {
             const dropdown = document.getElementById('model-dropdown');
             if (dropdown && !e.target.closest('button[onclick="toggleModelDropdown()"]') && !dropdown.contains(e.target)) {
@@ -356,7 +334,6 @@
             document.getElementById('model-dropdown').classList.add('hidden');
         }
 
-        // Chat Management
         function initChats() {
             if (state.chats.length === 0) {
                 createNewChat(false);
@@ -400,19 +377,14 @@
             saveChatsToStorage();
             renderChatHistoryList();
             renderCurrentChatMessages();
-            if (window.innerWidth < 768) {
-                toggleSidebar();
-            }
+            if (window.innerWidth < 768) toggleSidebar();
         }
 
         function deleteChat(chatId, event) {
             event.stopPropagation();
             state.chats = state.chats.filter(c => c.id !== chatId);
-            if (state.chats.length === 0) {
-                createNewChat(false);
-            } else if (state.currentChatId === chatId) {
-                state.currentChatId = state.chats[0].id;
-            }
+            if (state.chats.length === 0) createNewChat(false);
+            else if (state.currentChatId === chatId) state.currentChatId = state.chats[0].id;
             saveChatsToStorage();
             renderChatHistoryList();
             renderCurrentChatMessages();
@@ -438,7 +410,6 @@
                 const div = document.createElement('div');
                 div.className = `group flex items-center justify-between px-3 py-2 rounded-xl text-sm cursor-pointer transition-colors ${isActive ? 'bg-gray-200 dark:bg-[#333537] font-medium text-gray-900 dark:text-white' : 'hover:bg-gray-100 dark:hover:bg-[#262729] text-gray-700 dark:text-gray-300'}`;
                 div.onclick = () => switchChat(chat.id);
-                
                 div.innerHTML = `
                     <div class="flex items-center gap-2.5 truncate flex-1 pr-2">
                         <i class="fa-regular fa-message text-xs opacity-70"></i>
@@ -456,7 +427,6 @@
         function renderCurrentChatMessages() {
             const container = document.getElementById('chat-messages');
             const chat = getCurrentChat();
-            
             if (!chat || chat.messages.length === 0) {
                 container.innerHTML = `
                     <div id="welcome-screen" class="my-auto text-center max-w-lg px-4 flex flex-col items-center">
@@ -487,11 +457,8 @@
             chat.messages.forEach(msg => {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `flex gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`;
-                
                 if (msg.role === 'user') {
-                    messageDiv.innerHTML = `
-                        <div class="bg-gray-100 dark:bg-[#2b2c2f] text-gray-800 dark:text-gray-100 px-5 py-3.5 rounded-3xl rounded-tr-sm max-w-[85%] md:max-w-[75%] text-sm md:text-base leading-relaxed whitespace-pre-wrap">${escapeHtml(msg.content)}</div>
-                    `;
+                    messageDiv.innerHTML = `<div class="bg-gray-100 dark:bg-[#2b2c2f] text-gray-800 dark:text-gray-100 px-5 py-3.5 rounded-3xl rounded-tr-sm max-w-[85%] md:max-w-[75%] text-sm md:text-base leading-relaxed whitespace-pre-wrap">${escapeHtml(msg.content)}</div>`;
                 } else {
                     const parsedMarkdown = marked.parse(msg.content);
                     messageDiv.innerHTML = `
@@ -505,12 +472,10 @@
                 }
                 messagesWrapper.appendChild(messageDiv);
             });
-
             container.appendChild(messagesWrapper);
             container.scrollTop = container.scrollHeight;
         }
 
-        // Auto resize textarea
         function autoResize(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = Math.min(textarea.scrollHeight, 160) + 'px';
@@ -530,7 +495,6 @@
             sendMessage();
         }
 
-        // Settings Modal Handlers
         function openSettings() {
             document.getElementById('api-key-input').value = state.apiKey;
             document.getElementById('settings-model-select').value = state.model;
@@ -554,21 +518,15 @@
         }
 
         function saveSettings() {
-            const key = document.getElementById('api-key-input').value.trim();
-            const selectedModel = document.getElementById('settings-model-select').value;
-            
-            state.apiKey = key;
-            state.model = selectedModel;
-            localStorage.setItem('gemini_api_key', key);
-            localStorage.setItem('gemini_model', selectedModel);
-            
+            state.apiKey = document.getElementById('api-key-input').value.trim();
+            state.model = document.getElementById('settings-model-select').value;
+            localStorage.setItem('gemini_api_key', state.apiKey);
+            localStorage.setItem('gemini_model', state.model);
             closeSettings();
         }
 
-        // System Prompt Modal Handlers
         function openSystemPromptModal() {
-            const chat = getCurrentChat();
-            document.getElementById('system-prompt-input').value = chat.systemPrompt || '';
+            document.getElementById('system-prompt-input').value = getCurrentChat().systemPrompt || '';
             document.getElementById('system-prompt-modal').classList.remove('hidden');
         }
 
@@ -577,14 +535,11 @@
         }
 
         function saveSystemPrompt() {
-            const promptVal = document.getElementById('system-prompt-input').value.trim();
-            const chat = getCurrentChat();
-            chat.systemPrompt = promptVal;
+            getCurrentChat().systemPrompt = document.getElementById('system-prompt-input').value.trim();
             saveChatsToStorage();
             closeSystemPromptModal();
         }
 
-        // Core AI Request with Streaming via Google AI Studio Gemini API
         async function sendMessage() {
             const input = document.getElementById('user-input');
             const text = input.value.trim();
@@ -600,14 +555,11 @@
             input.style.height = '52px';
 
             const chat = getCurrentChat();
-            
-            // Auto title chat if it's the first message
             if (chat.messages.length === 0) {
                 chat.title = text.length > 25 ? text.substring(0, 25) + '...' : text;
                 renderChatHistoryList();
             }
 
-            // Append user message
             chat.messages.push({ role: 'user', content: text });
             saveChatsToStorage();
             renderCurrentChatMessages();
@@ -615,24 +567,17 @@
             state.isGenerating = true;
             document.getElementById('send-btn').disabled = true;
 
-            // Prepare placeholder for streaming assistant response
             chat.messages.push({ role: 'assistant', content: '' });
             saveChatsToStorage();
             renderCurrentChatMessages();
 
             try {
-                // Construct Google Gemini API contents payload format
                 const contents = [];
-                
-                // Add system instructions if present
                 let systemInstructionPayload = null;
                 if (chat.systemPrompt) {
-                    systemInstructionPayload = {
-                        parts: [{ text: chat.systemPrompt }]
-                    };
+                    systemInstructionPayload = { parts: [{ text: chat.systemPrompt }] };
                 }
 
-                // Map message history
                 chat.messages.slice(0, -1).forEach(m => {
                     contents.push({
                         role: m.role === 'assistant' ? 'model' : 'user',
@@ -640,21 +585,16 @@
                     });
                 });
 
-                const requestBody = {
-                    contents: contents
-                };
+                const requestBody = { contents };
                 if (systemInstructionPayload) {
                     requestBody.system_instruction = systemInstructionPayload;
                 }
 
-                // Using streamGenerateContent endpoint
                 const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${state.model}:streamGenerateContent?alt=sse&key=${state.apiKey}`;
 
                 const response = await fetch(endpoint, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
                 });
 
@@ -674,7 +614,7 @@
 
                     buffer += decoder.decode(value, { stream: true });
                     const lines = buffer.split('\n');
-                    buffer = lines.pop(); // Keep last partial line in buffer
+                    buffer = lines.pop();
 
                     for (const line of lines) {
                         const trimmed = line.trim();
@@ -690,16 +630,12 @@
                                         saveChatsToStorage();
                                         renderCurrentChatMessages();
                                     }
-                                } catch (e) {
-                                    console.error("Error parsing JSON chunk:", e);
-                                }
+                                } catch (e) {}
                             }
                         }
                     }
                 }
-
             } catch (err) {
-                console.error("API Error:", err);
                 chat.messages[chat.messages.length - 1].content = `**Error:** ${err.message || 'Failed to connect to Google AI Studio API.'}`;
                 saveChatsToStorage();
                 renderCurrentChatMessages();
@@ -710,16 +646,9 @@
         }
 
         function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
             return text.replace(/[&<>"']/g, m => map[m]);
         }
     </script>
 </body>
 </html>
-
